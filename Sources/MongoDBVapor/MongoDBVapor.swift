@@ -42,7 +42,7 @@ extension Application {
         do {
             try self.mongoClient.syncClose()
         } catch {
-            app.logger.error("Failed to shut down MongoDB client: \(error)")
+            self.logger.error("Failed to shut down MongoDB client: \(error)")
         }
         cleanupMongoSwift()
     }
