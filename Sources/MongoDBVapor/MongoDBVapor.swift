@@ -39,7 +39,11 @@ extension Application {
 
     /// Handles MongoDB related cleanup. Call this method when shutting down your application.
     public func cleanupMongoDB() {
-        try self.mongoClient.syncClose()
+        do {
+            try self.mongoClient.syncClose()
+        } catch {
+            // TODO: log erro in the vapor logger?
+        }
         cleanupMongoSwift()
     }
 }
