@@ -19,8 +19,16 @@ extension Application {
     }
 
     /**
-     * Configures a global `MongoClient` with the specified options. The client will use the application's
-     * `EventLoopGroup` for executing operations.
+     * Configures a global `MongoClient` with the specified options. The client may then be accessed via the
+     * `mongoClient` computed property on the `Application`. The client will use the `Application`'s `EventLoopGroup`
+     * for executing operations.
+     *
+     * For example:
+     * ````
+     *  let app = Application() // a Vapor Application
+     *  try app.configureMongoDB() // configures a MongoClient
+     *  app.mongoClient.listDatabases() // a client is now accessable via the Application
+     * ````
      *
      * - Parameters:
      *   - connectionString: the connection string to connect to.
@@ -37,7 +45,15 @@ extension Application {
         self.mongoClient = client
     }
 
-    /// Handles MongoDB related cleanup. Call this method when shutting down your application.
+    /**
+     * Handles MongoDB related cleanup. Call this method when shutting down your application.
+     * If an error occurs while closing the client, it will be logged via the `Application`'s logger.
+     * For example:
+     * ````
+     *  try app.cleanupMongoDB()
+     *  try app.shutdown()
+     * ````
+     */
     public func cleanupMongoDB() {
         do {
             try self.mongoClient.syncClose()
