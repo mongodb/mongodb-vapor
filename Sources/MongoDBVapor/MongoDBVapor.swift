@@ -51,7 +51,7 @@ extension Application {
      * For example:
      * ````
      *  try app.cleanupMongoDB()
-     *  try app.shutdown()
+     *  app.shutdown()
      * ````
      */
     public func cleanupMongoDB() {
