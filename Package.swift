@@ -11,7 +11,8 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/Quick/Nimble.git", .upToNextMajor(from: "8.0.0")),
-        .package(url: "https://github.com/mongodb/mongo-swift-driver", .upToNextMajor(from: "1.0.0")),
+        // TODO: update to driver v1.1 once released.
+        .package(url: "https://github.com/mongodb/mongo-swift-driver", .branch("master")),
         .package(url: "https://github.com/vapor/vapor", .upToNextMajor(from: "4.0.0"))
     ],
     targets: [
@@ -24,7 +25,11 @@ let package = Package(
         ),
         .testTarget(
             name: "MongoDBVaporTests",
-            dependencies: ["MongoDBVapor", "Nimble"]
+            dependencies: [
+                "MongoDBVapor",
+                "Nimble",
+                .product(name: "XCTVapor", package: "vapor")
+            ]
         ),
     ]
 )
