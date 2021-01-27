@@ -1,1 +1,2 @@
-@_exported import func MongoSwift.cleanupMongoSwift
+// re-export the driver
+@_exported import MongoSwift

@@ -20,9 +20,17 @@ extension Application {
          * Within `Request` handlers, it is preferable to use `Request.mongoDB.client` as that will return a client
          * which uses the same `EventLoop` as the `Request`.
          */
-        public private(set) var client: MongoClient {
+        public var client: MongoClient {
+            // swiftlint:disable:next force_unwrapping
+            self._client! // this is fine assuming it is only accessed after a successful call to `configure()`
+        }
+
+        /// Private version of the client to ensure we can safely handle cases where it is optional. This allows users
+        /// to e.g. unconditionally call `app.mongoDB.cleanup()` without issue even if initialization failed. We
+        /// provide the less-safe non-optional public `client` for user convenience.
+        private var _client: MongoClient? {
             get {
-                self.application.storage[MongoClientKey.self]!
+                self.application.storage[MongoClientKey.self]
             }
             nonmutating set {
                 self.application.storage[MongoClientKey.self] = newValue
@@ -58,7 +66,7 @@ extension Application {
             _ connectionString: String = "mongodb://localhost:27017",
             options: MongoClientOptions? = nil
         ) throws {
-            self.client = try MongoClient(connectionString, using: self.application.eventLoopGroup, options: options)
+            self._client = try MongoClient(connectionString, using: self.application.eventLoopGroup, options: options)
         }
 
         /**
@@ -74,7 +82,7 @@ extension Application {
          */
         public func cleanup() {
             do {
-                try self.client.syncClose()
+                try self._client?.syncClose()
             } catch {
                 self.application.logger.error("Failed to shut down MongoDB client: \(error)")
             }

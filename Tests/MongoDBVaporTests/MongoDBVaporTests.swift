@@ -60,4 +60,51 @@ final class MongoDBVaporTests: XCTestCase {
             try app.test(.GET, "listDatabases", afterResponse: testHandler)
         }
     }
+
+    func testExtendedJSONContent() throws {
+        ContentConfiguration.global.use(encoder: ExtendedJSONEncoder(), for: .json)
+        ContentConfiguration.global.use(decoder: ExtendedJSONDecoder(), for: .json)
+        defer {
+            ContentConfiguration.global.use(encoder: JSONEncoder(), for: .json)
+            ContentConfiguration.global.use(decoder: JSONDecoder(), for: .json)
+        }
+
+        let app = Application(.testing)
+        defer {
+            app.shutdown()
+        }
+        struct TestStruct: Content, Equatable {
+            let _id: BSONObjectID
+        }
+
+        let test = TestStruct(
+            _id: BSONObjectID()
+        )
+
+        let testExtJSON = try String(decoding: ExtendedJSONEncoder().encode(test), as: UTF8.self)
+
+        app.get("test") { _ in test }
+        try app.test(.GET, "test") { res in
+            // the response type should have been automatically serialized to extJSON.
+            expect(res.body.string).to(equal(testExtJSON))
+        }
+
+        app.post("test") { req -> Response in
+            // the request's body should be extended JSON.
+            expect(req.body.string).to(equal(testExtJSON))
+            return Response(status: .ok)
+        }
+
+        try app.test(
+            .POST,
+            "test",
+            beforeRequest: { req in
+                // manually add request data
+                try req.content.encode(test)
+            },
+            afterResponse: { res in
+                expect(res.status).to(equal(.ok))
+            }
+        )
+    }
 }
