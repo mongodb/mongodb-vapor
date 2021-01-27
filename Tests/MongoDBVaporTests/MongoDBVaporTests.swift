@@ -1,5 +1,4 @@
 import MongoDBVapor
-import MongoSwift
 import Nimble
 import Vapor
 import XCTest
