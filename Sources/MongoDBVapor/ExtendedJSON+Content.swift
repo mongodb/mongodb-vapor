@@ -10,7 +10,8 @@ extension ExtendedJSONEncoder: ContentEncoder {
         where E: Encodable
     {
         headers.contentType = .json
-        try body.writeBytes(self.encode(encodable))
+        var buffer = try self.encodeBuffer(encodable)
+        body.writeBuffer(&buffer)
     }
 }
 
@@ -18,7 +19,6 @@ extension ExtendedJSONDecoder: ContentDecoder {
     public func decode<D>(_: D.Type, from body: ByteBuffer, headers _: HTTPHeaders) throws -> D
         where D: Decodable
     {
-        let data = body.getData(at: body.readerIndex, length: body.readableBytes) ?? Data()
-        return try self.decode(D.self, from: data)
+        try self.decode(D.self, from: body)
     }
 }
