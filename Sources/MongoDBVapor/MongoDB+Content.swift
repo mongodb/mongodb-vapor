@@ -22,3 +22,7 @@ extension ExtendedJSONDecoder: ContentDecoder {
         try self.decode(D.self, from: body)
     }
 }
+
+/// Enables `BSONDocument` to be used as a `Content` type when `ExtendedJSONEncoder`/`ExtendedJSONDecoder` are set as
+/// the default JSON encoder/decoder for the application.
+extension BSONDocument: Content {}
