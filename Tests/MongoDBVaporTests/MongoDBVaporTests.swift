@@ -81,10 +81,19 @@ final class MongoDBVaporTests: XCTestCase {
             _id: BSONObjectID()
         )
 
+        let testDoc = try BSONEncoder().encode(test)
         let testExtJSON = try String(decoding: ExtendedJSONEncoder().encode(test), as: UTF8.self)
 
+        // test returning a custom Codable type.
         app.get("test") { _ in test }
         try app.test(.GET, "test") { res in
+            // the response type should have been automatically serialized to extJSON.
+            expect(res.body.string).to(equal(testExtJSON))
+        }
+
+        // test returning a BSONDocument.
+        app.get("testDoc") { _ in testDoc }
+        try app.test(.GET, "testDoc") { res in
             // the response type should have been automatically serialized to extJSON.
             expect(res.body.string).to(equal(testExtJSON))
         }
@@ -92,6 +101,10 @@ final class MongoDBVaporTests: XCTestCase {
         app.post("test") { req -> Response in
             // the request's body should be extended JSON.
             expect(req.body.string).to(equal(testExtJSON))
+            // we should be able to decode the request content into our original type.
+            expect(try req.content.decode(TestStruct.self)).to(equal(test))
+            // we should also be able to decode the request content into a BSONDocument.
+            expect(try req.content.decode(BSONDocument.self)).to(equal(testDoc))
             return Response(status: .ok)
         }
 
