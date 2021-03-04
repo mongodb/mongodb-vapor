@@ -4,6 +4,8 @@
 
 # exit if any command fails
 set -e
+# pipe should fail if any command fails
+set -o pipefail
 
 if ! command -v jazzy > /dev/null; then
   gem install jazzy || { echo "ERROR: Failed to locate or install jazzy; please install yourself with 'gem install jazzy' (you may need to use sudo)"; exit 1; }
@@ -22,22 +24,31 @@ version=${1}
 rm -rf .build
 
 # obtain BSON library and driver versions from Package.resolved
-bson_version="$(python3 etc/get_dep_version.py swift-bson)"
-driver_version="$(python3 etc/get_dep_version.py mongo-swift-driver)"
+# write to files first so this script will exit if getting either version fails
+echo "Getting dependency versions..."
+python3 etc/get_dep_version.py swift-son > BSON_VERSION || { echo "Failed to get BSON library version"; rm BSON_VERSION; exit 1; }
+python3 etc/get_dep_version.py mongo-swift-driver > DRIVER_VERSION  || { echo "Failed to get driver version"; rm DRIVER_VERSION; exit 1; }
+bson_version="$(cat BSON_VERSION)"
+driver_version="$(cat DRIVER_VERSION)"
 
+rm BSON_VERSION
+rm DRIVER_VERSION
+
+echo "Generating BSON doc info..."
 git clone --depth 1 --branch "v${bson_version}" https://github.com/mongodb/swift-bson
 working_dir=${PWD}
 cd swift-bson
 sourcekitten doc --spm --module-name SwiftBSON > ${working_dir}/bson-docs.json
 cd $working_dir
 
+echo "Generating driver doc info..."
 git clone --depth 1 --branch "v${driver_version}" https://github.com/mongodb/mongo-swift-driver
 working_dir=${PWD}
 cd mongo-swift-driver
 sourcekitten doc --spm --module-name MongoSwift > ${working_dir}/mongoswift-docs.json
 cd $working_dir
 
-# consolidate all guides from across repos
+echo "Consolidating guides from all repos..."
 mkdir Guides-Temp
 cp swift-bson/Guides/*.md Guides-Temp/
 cp mongo-swift-driver/Guides/*.md Guides-Temp/
@@ -47,18 +58,23 @@ jazzy_args=(--clean
             --module-version "${version}"
             --documentation "Guides-Temp/*.md")
 
+echo "Generating MongoDBVapor doc info..."
 sourcekitten doc --spm --module-name MongoDBVapor > mongodbvapor-docs.json
 args=("${jazzy_args[@]}"  --output "docs-temp" --module "MongoDBVapor" --config ".jazzy.yml" 
         --sourcekitten-sourcefile mongoswift-docs.json,bson-docs.json,mongodbvapor-docs.json
         --root-url "https://mongodb.github.io/mongodb-vapor")
+echo "Running Jazzy..."
 jazzy "${args[@]}"
 
+echo "Cleaning up files..."
 rm -rf swift-bson
 rm -rf mongo-swift-driver
 rm mongoswift-docs.json
 rm bson-docs.json
 rm mongodbvapor-docs.json
 rm -rf Guides-Temp
+
+echo "Correcting GitHub paths for driver and BSON library docs..."
 
 # we can only pass a single GitHub file prefix above, so we need to correct the BSON file paths throughout the docs.
 
@@ -74,3 +90,5 @@ xargs -0 etc/sed.sh -i "s/mongodb-vapor\/tree\/v${version}\/swift-bson/swift-bso
 
 find docs-temp -name "*.html" -print0 | \
 xargs -0 etc/sed.sh -i "s/mongodb-vapor\/tree\/v${version}\/mongo-swift-driver/mongo-swift-driver\/tree\/v${driver_version}/"
+
+echo "Done!"
