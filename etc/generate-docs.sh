@@ -26,7 +26,7 @@ rm -rf .build
 # obtain BSON library and driver versions from Package.resolved
 # write to files first so this script will exit if getting either version fails
 echo "Getting dependency versions..."
-python3 etc/get_dep_version.py swift-son > BSON_VERSION || { echo "Failed to get BSON library version"; rm BSON_VERSION; exit 1; }
+python3 etc/get_dep_version.py swift-bson > BSON_VERSION || { echo "Failed to get BSON library version"; rm BSON_VERSION; exit 1; }
 python3 etc/get_dep_version.py mongo-swift-driver > DRIVER_VERSION  || { echo "Failed to get driver version"; rm DRIVER_VERSION; exit 1; }
 bson_version="$(cat BSON_VERSION)"
 driver_version="$(cat DRIVER_VERSION)"
