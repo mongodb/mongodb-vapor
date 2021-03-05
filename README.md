@@ -119,8 +119,8 @@ app.get("kittens") { req -> EventLoopFuture<[Kitten]> in
 }
 
 app.post("kittens") { req -> EventLoopFuture<Response> in
-    let newKitten = try self.content.decode(Kitten.self)
-    return self.kittenCollection.insertOne(newKitten)
+    let newKitten = try req.content.decode(Kitten.self)
+    return req.kittenCollection.insertOne(newKitten)
         .map { _ in Response(status: .created) }
 }
 ```
