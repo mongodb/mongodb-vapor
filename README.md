@@ -112,13 +112,13 @@ by removing the need to `hop` the returned futures.**
 You can then use these in request handlers as follows:
 ```swift
 /// Handles a request to load the list of kittens.
-rest.get("kittens") { req -> EventLoopFuture<[Kitten]> in
+app.get("kittens") { req -> EventLoopFuture<[Kitten]> in
     req.kittenCollection.find().flatMap { cursor in
         cursor.toArray()
     }
 }
 
-rest.post("kittens") { req -> EventLoopFuture<Response> in
+app.post("kittens") { req -> EventLoopFuture<Response> in
     let newKitten = try self.content.decode(Kitten.self)
     return self.kittenCollection.insertOne(newKitten)
         .map { _ in Response(status: .created) }
