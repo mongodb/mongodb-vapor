@@ -143,3 +143,9 @@ If you'd like to use `ExtendedJSONEncoder` and `ExtendedJSONDecoder` for encodin
 ContentConfiguration.global.use(encoder: ExtendedJSONEncoder(), for: .json)
 ContentConfiguration.global.use(decoder: ExtendedJSONDecoder(), for: .json)
 ```
+Note that this is currently required if you want to use `BSONDocument` as a `Content` type and e.g.
+directly return `BSONDocument`s from request handlers, because `BSONDocument` does not yet support 
+being encoded/decoded via `JSONEncoder` and `JSONDecoder`.
+
+For more information on JSON interoperation in general with the driver, see our 
+[JSON interop guide](https://mongodb.github.io/swift-bson/docs/current/SwiftBSON/json-interop.html).
