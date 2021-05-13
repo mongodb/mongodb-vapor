@@ -14,4 +14,4 @@ with open('./docs/index.md', 'w') as f:
             dir = 'current'
             first = False
 
-        f.write('- [{}]({}/MongoDBVapor/index.html)\n'.format(version_str, dir))
+        f.write('- [{}]({}/index.html)\n'.format(version_str, dir))
