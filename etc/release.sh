@@ -37,4 +37,5 @@ git tag "v${version}"
 git push --tags
 
 # go to GitHub to publish release notes
-open "https://github.com/mongodb/mongodb-vapor/releases/tag/v${version}"
+echo "Successfully tagged release! \
+Go here to publish release notes: https://github.com/mongodb/mongodb-vapor/releases/tag/v${version}"
