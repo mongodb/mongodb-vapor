@@ -1,14 +1,36 @@
 import MongoSwift
 import Vapor
 
-extension Application {
+/**
+ * An extension to Vapor's `Application` type to add support for configuring your application to interact with a
+ * MongoDB deployment. All of the API is namespaced under the `.mongoDB` property on the `Application.MongoDB` type.
+ * This extension supports the following:
+ *
+ * - Configuring a global MongoDB client for your application via `Application.MongoDB.configure(_:options:)`, for example:
+ * ```
+ * myApp.mongoDB.configure("mongodb://localhost:27017")
+ * ```
+ *
+ * - Accessing a global client via `Application.MongoDB.client`, for example:
+ * ```
+ * myApp.mongoDB.client.listDatabases()
+ * ```
+ *
+ * - Cleaning up the global client when your application is shutting down via `Application.MongoDB.cleanup()`, for example:
+ * ```
+ * myApp.mongDB.cleanup()
+ * ```
+ *
+ * See `Application.MongoDB` for further details.
+ */
+public extension Application {
     /// Returns an instance of `MongoDB`, providing access to MongoDB APIs for use at the `Application` level.
-    public var mongoDB: MongoDB {
+    var mongoDB: MongoDB {
         MongoDB(application: self)
     }
 
     /// A type providing access to MongoDB APIs for use at the `Application` level.
-    public struct MongoDB {
+    struct MongoDB {
         private struct MongoClientKey: StorageKey {
             typealias Value = MongoClient
         }
@@ -89,16 +111,37 @@ extension Application {
             }
         }
     }
-}
+} 
 
-extension Request {
+/**
+ * An extension to Vapor's `Request` type to add support for conveniently accessing MongoDB core types e.g.
+ * e.g. clients, databases, and collections which return futures on on the same `EventLoop` which the `Request` is
+ * on.
+ *
+ * This extension provides a `Request.mongoDB.client` property which you can use as follows from within a `Request`
+ * handler:
+ * ```
+ * req.mongoDB.client.db("home").collection("kittens", withType: Kitten.self).insertOne(myKitten)
+ * ```
+ * We recommend utilizing this API to add extensions to `Request` for MongoDB databases and collections you frequently
+ * access, for example:
+ * ```
+ * extension Request {
+ *     /// A collection with an associated `Codable` type `Kitten`.
+ *     var kittenCollection: MongoCollection<Kitten> {
+ *         self.client.db("home").collection("kittens", withType: Kitten.self)
+ *     }
+ * }
+ * ```
+ */
+public extension Request {
     /// Returns an instance of `MongoDB`, providing access to MongoDB APIs for use at the `Request` level.
-    public var mongoDB: MongoDB {
+    var mongoDB: MongoDB {
         MongoDB(request: self)
     }
 
     /// A type providing access to MongoDB APIs for use at the `Request` level.
-    public struct MongoDB {
+    struct MongoDB {
         internal let request: Request
 
         internal init(request: Request) {
