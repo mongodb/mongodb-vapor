@@ -6,7 +6,8 @@ import Vapor
  * MongoDB deployment. All of the API is namespaced under the `.mongoDB` property on the `Application.MongoDB` type.
  * This extension supports the following:
  *
- * - Configuring a global MongoDB client for your application via `Application.MongoDB.configure(_:options:)`, for example:
+ * - Configuring a global MongoDB client for your application via `Application.MongoDB.configure(_:options:)`, for
+ *   example:
  * ```
  * myApp.mongoDB.configure("mongodb://localhost:27017")
  * ```
@@ -16,7 +17,8 @@ import Vapor
  * myApp.mongoDB.client.listDatabases()
  * ```
  *
- * - Cleaning up the global client when your application is shutting down via `Application.MongoDB.cleanup()`, for example:
+ * - Cleaning up the global client when your application is shutting down via `Application.MongoDB.cleanup()`,
+ *   for example:
  * ```
  * myApp.mongDB.cleanup()
  * ```
@@ -111,7 +113,7 @@ public extension Application {
             }
         }
     }
-} 
+}
 
 /**
  * An extension to Vapor's `Request` type to add support for conveniently accessing MongoDB core types e.g.
