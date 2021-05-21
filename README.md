@@ -100,7 +100,7 @@ to provide easy access, like:
 extension Request {
     /// A collection with an associated `Codable` type `Kitten`.
     var kittenCollection: MongoCollection<Kitten> {
-        self.client.db("home").collection("kittens", withType: Kitten.self)
+        self.mongoDB.client.db("home").collection("kittens", withType: Kitten.self)
     }
 }
 ```
