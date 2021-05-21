@@ -25,14 +25,14 @@ import Vapor
  *
  * See `Application.MongoDB` for further details.
  */
-public extension Application {
+extension Application {
     /// Returns an instance of `MongoDB`, providing access to MongoDB APIs for use at the `Application` level.
-    var mongoDB: MongoDB {
+    public var mongoDB: MongoDB {
         MongoDB(application: self)
     }
 
     /// A type providing access to MongoDB APIs for use at the `Application` level.
-    struct MongoDB {
+    public struct MongoDB {
         private struct MongoClientKey: StorageKey {
             typealias Value = MongoClient
         }
@@ -136,14 +136,14 @@ public extension Application {
  * }
  * ```
  */
-public extension Request {
+extension Request {
     /// Returns an instance of `MongoDB`, providing access to MongoDB APIs for use at the `Request` level.
-    var mongoDB: MongoDB {
+    public var mongoDB: MongoDB {
         MongoDB(request: self)
     }
 
     /// A type providing access to MongoDB APIs for use at the `Request` level.
-    struct MongoDB {
+    public struct MongoDB {
         internal let request: Request
 
         internal init(request: Request) {
