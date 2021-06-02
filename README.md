@@ -4,11 +4,12 @@ A library for building applications with [MongoDB](https://www.mongodb.com/) + [
 - [Documentation](#documentation)
 - [Bugs / Feature Requests](#bugs---feature-requests)
 - [Installation](#installation)
-  * [Step 1: Install Required System Libraries (Linux Only)](#step-1--install-required-system-libraries--linux-only-)
-  * [Step 2: Install the library](#step-2--install-the-library)
+  * [Using in a New Project](#using-in-a-new-project)
+  * [Using in an Existing Project](#using-in-an-existing-project)
 - [Example Usage](#example-usage)
   * [Configure global settings](#configure-global-settings)
   * [Use MongoDB in a Request Handler](#use-mongodb-in-a-request-handler)
+  * [Perform one-time setup or teardown code](#perform-one-time-setup-or-teardown-code)
   * [Working with Extended JSON](#working-with-extended-json)
 
 ## Documentation
@@ -29,14 +30,19 @@ Core Server (i.e. SERVER) project are **public**.
 ## Installation
 This library works with **Swift 5.2+** , and supports Linux and macOS usage. The minimum macOS version required is **10.15**.
 
-Installation is supported via [Swift Package Manager](https://swift.org/package-manager/).
+### Using in a New Project
+To create a new project using the library, the easiest way to get started is by using
+Vapor's command line tool, [Vapor Toolbox](https://github.com/vapor/toolbox), along with our application template:
+```
+vapor new MyProject --template https://github.com/mongodb/mongodb-vapor-template/
+```
+This will create a new project from a template, which you can edit to your liking. See the instructions [here](https://github.com/mongodb/mongodb-vapor-template/blob/main/README.md) or in the generated README for more details on the generated project.
 
-### Step 1: Install Required System Libraries (Linux Only)
+Note that for use on Linux you will need to install some additional dependencies (see [below](#step-1--install-required-system-libraries--linux-only-).) 
+### Using in an Existing Project
+#### Step 1: Install Required System Libraries (Linux Only)
 The driver vendors and wraps the MongoDB C driver (`libmongoc`), which depends on a number of external C libraries when built in Linux environments. As a result, these libraries must be installed on your system in order to build MongoSwift.
-
-To install those libraries, please follow the [instructions](http://mongoc.org/libmongoc/current/installing.html#prerequisites-for-libmongoc) from `libmongoc`'s documentation.
-
-### Step 2: Install the library
+#### Step 2: Install the library
 Add this package along with Vapor as dependencies in your project's `Package.swift` file:
 
 ```swift
@@ -50,7 +56,7 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/vapor/vapor", .upToNextMajor(from: "4.7.0")),
-        .package(url: "https://github.com/mongodb/mongodb-vapor", .upToNextMajor(from: "1.0.0"))
+        .package(url: "https://github.com/mongodb/mongodb-vapor", .upToNextMajor(from: "VERSION.STRING.HERE"))
     ],
     targets: [
         .target(
