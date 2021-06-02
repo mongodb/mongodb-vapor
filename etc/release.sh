@@ -32,6 +32,13 @@ git push
 # go back to wherever we started
 git checkout -
 
+# update the README with the version string
+etc/sed.sh -i "s/mongodb-vapor\", .upToNextMajor[^)]*)/mongodb-vapor\", .upToNextMajor(from: \"${version}\")/" README.md
+
+git add README.md
+git commit -m "Update README for ${version}"
+git push
+
 # tag release and push tag
 git tag "v${version}"
 git push --tags
