@@ -32,6 +32,8 @@ Core Server (i.e. SERVER) project are **public**.
 ## Installation
 This library works with **Swift 5.2+** , and supports Linux and macOS usage. The minimum macOS version required is **10.15**.
 
+Installation is supported via [Swift Package Manager](https://swift.org/package-manager/).
+
 ### Step 1: Install Required System Libraries (Linux Only)
 If you are using macOS, you can skip ahead.
 
