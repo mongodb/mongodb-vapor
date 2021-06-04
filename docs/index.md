@@ -1,3 +1,4 @@
 # mongodb-vapor Documentation Index
-- [0.0.2 (current)](current/index.html)
+- [1.0.0-beta.0 (current)](current/index.html)
+- [0.0.2](0.0.2/index.html)
 - [0.0.1](0.0.1/index.html)
