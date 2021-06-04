@@ -83,6 +83,7 @@ let package = Package(
 ```
 
 Then run `swift build` to download, compile, and link all your dependencies.
+
 ## Example Usage
 ### You can find a complete example project built using this library [here](https://github.com/mongodb/mongo-swift-driver/tree/main/Examples/VaporExample). 
 
