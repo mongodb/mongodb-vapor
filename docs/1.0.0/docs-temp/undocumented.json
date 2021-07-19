@@ -1,0 +1,40 @@
+{
+  "warnings": [
+    {
+      "file": "/Users/km/mongodb-vapor/Sources/MongoDBVapor/MongoDB+Content.swift",
+      "line": 9,
+      "symbol": "ExtendedJSONEncoder.encode(_:to:headers:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/km/mongodb-vapor/Sources/MongoDBVapor/MongoDB+Content.swift",
+      "line": 19,
+      "symbol": "ExtendedJSONDecoder.decode(_:from:headers:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/km/mongodb-vapor/mongo-swift-driver/Sources/MongoSwift/MongoCredential.swift",
+      "line": 24,
+      "symbol": "MongoCredential.init(username:password:source:mechanism:mechanismProperties:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/km/mongodb-vapor/mongo-swift-driver/Sources/MongoSwift/MongoError.swift",
+      "line": 124,
+      "symbol": "MongoError.ConnectionError.message",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/km/mongodb-vapor/swift-bson/Sources/SwiftBSON/BSONDocument+Sequence.swift",
+      "line": 29,
+      "symbol": "BSONDocument.map(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    }
+  ],
+  "source_directory": "/Users/km/mongodb-vapor"
+}
