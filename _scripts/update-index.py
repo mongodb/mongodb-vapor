@@ -9,7 +9,7 @@ with open('./docs/index.md', 'w') as f:
             continue
 
         version_str = dir
-        if first and "beta" not in dir:
+        if first:
             version_str += ' (current)'
             dir = 'current'
             first = False
