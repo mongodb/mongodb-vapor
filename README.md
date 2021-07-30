@@ -91,12 +91,15 @@ To summarize the available features:
 
 ### Configure global settings
 
+In your `configure(_:)` method in `App/configure.swift`, add:
+```swift
+// Configure the app for using a MongoDB server at the provided connection string.
+try app.mongoDB.configure("mongodb://localhost:27017")
+```
+
 In `Run/main.swift`, add:
 ```swift
 import MongoDBVapor
-
-// Configure the app for using a MongoDB server at the provided connection string.
-try app.mongoDB.configure("mongodb://localhost:27017")
 
 defer {
     // Cleanup the application's MongoDB data.
