@@ -8,6 +8,7 @@ A library for building applications with [MongoDB](https://www.mongodb.com/) + [
   * [Step 2: Install MongoDBVapor](#step-2-install-mongodbvapor)
     - [Create a new project from a template](#create-a-new-project-from-a-template)
     - [Add to a project manually](#add-to-a-project-manually)
+- [Docker Usage](#docker-usage)
 - [Example Usage](#example-usage)
   * [Configure global settings](#configure-global-settings)
   * [Use MongoDB in a Request Handler](#use-mongodb-in-a-request-handler)
@@ -83,6 +84,17 @@ let package = Package(
 ```
 
 Then run `swift build` to download, compile, and link all your dependencies.
+
+## Docker Usage
+Note that if you are using this library on Docker with Vapor's default Docker template file, you'll need to install the system
+dependencies the driver requires on Linux, as mentioned [above](#step-1-install-required-system-libraries-linux-only).
+
+To do this, add the following to your Dockerfile:
+```
+RUN apt-get update && apt-get install -y libssl-dev
+```
+
+A user [@dotmain](https://github.com/dotmain) has also created a Vapor template that includes Docker configuration [here](https://github.com/dotmain/native-mongo-vapor-template).
 
 ## Example Usage
 ### You can find a complete example project built using this library [here](https://github.com/mongodb/mongo-swift-driver/tree/main/Examples/VaporExample). 
