@@ -39,7 +39,12 @@ extension Application {
 
         /**
          * A global `MongoClient` for use throughout the application. This client is not accessible until
-         * `Application.mongoDB.configure()` has been called. This client is primarily intended for use in application
+         * `Application.mongoDB.configure()` has been called.
+         *
+         * If you are using Vapor's async/await APIs: This client should be used throughout your application, including
+         * in request handlers, via `Request.application.mongoDB.client`.
+         *
+         * If you are using Vapor's `EventLoopFuture` APIs: This client is primarily intended for use in application
          * setup/teardown code and may return futures on any event loop within the application's `EventLoopGroup`.
          * Within `Request` handlers, it is preferable to use `Request.mongoDB.client` as that will return a client
          * which uses the same `EventLoop` as the `Request`.
@@ -119,6 +124,9 @@ extension Application {
  * An extension to Vapor's `Request` type to add support for conveniently accessing MongoDB core types e.g.
  * e.g. clients, databases, and collections which return futures on on the same `EventLoop` which the `Request` is
  * on.
+ *
+ * It is only recommended to utilize this extension if you are using Vapor's `EventLoopFuture` APIs. If you are using
+ * Vapor's async/await APIs, please use the global client accessible via `Application.mongoDB`.
  *
  * This extension provides a `Request.mongoDB.client` property which you can use as follows from within a `Request`
  * handler:
