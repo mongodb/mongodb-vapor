@@ -12,6 +12,8 @@ A library for building applications with [MongoDB](https://www.mongodb.com/) + [
 - [Example Usage](#example-usage)
   * [Configure global settings](#configure-global-settings)
   * [Use MongoDB in a Request Handler](#use-mongodb-in-a-request-handler)
+      * [Async/Await APIs](#asyncawait-apis)
+      * [`EventLoopFuture` APIs](#eventloopfuture-apis)
   * [Perform one-time setup or teardown code](#perform-one-time-setup-or-teardown-code)
   * [Working with Extended JSON](#working-with-extended-json)
 
@@ -123,6 +125,35 @@ defer {
 ```
 
 ### Use MongoDB in a Request Handler
+
+#### Async/Await APIs
+For collections you plan to access frequently, we recommend adding computed properties in an extension to `Request`
+to provide easy access, like:
+```swift
+extension Request {
+    /// A collection with an associated `Codable` type `Kitten`.
+    var kittenCollection: MongoCollection<Kitten> {
+        self.application.mongoDB.client.db("home").collection("kittens", withType: Kitten.self)
+    }
+}
+```
+
+You can then use these in request handlers as follows:
+```swift
+/// Handles a request to load the list of kittens.
+app.get("kittens") { req async throws -> [Kitten] in
+    try await req.kittenCollection.find().toArray()
+}
+
+/// Handles a request to add a new kitten.
+app.post("kittens") { req async throws -> Response in
+    let newKitten = try req.content.decode(Kitten.self)
+    try await req.kittenCollection.insertOne(newKitten)
+    return Response(status: .created)
+}
+```
+
+#### `EventLoopFuture` APIs
 For collections you plan to access frequently, we recommend adding computed properties in an extension to `Request`
 to provide easy access, like:
 ```swift
@@ -147,6 +178,7 @@ app.get("kittens") { req -> EventLoopFuture<[Kitten]> in
     }
 }
 
+/// Handles a request to add a new kitten.
 app.post("kittens") { req -> EventLoopFuture<Response> in
     let newKitten = try req.content.decode(Kitten.self)
     return req.kittenCollection.insertOne(newKitten)
