@@ -12,6 +12,9 @@ version=${1}
 # regenerate documentation with new version string
 ./etc/generate-docs.sh ${version}
 
+# get the current branch before we switch
+current_branch=$(git branch --show-current)
+
 # switch to docs branch to commit and push
 git checkout gh-pages
 
