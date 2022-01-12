@@ -5,9 +5,6 @@
 # exit if any command fails
 set -e
 
-# ensure we are on main before releasing
-git checkout main
-
 version=${1}
 # Ensure version is non-empty
 [ ! -z "${version}" ] || { echo "ERROR: Missing version string"; exit 1; }
@@ -30,17 +27,26 @@ git commit -m "${version} docs"
 git push
 
 # go back to wherever we started
-git checkout -
+git checkout ${current_branch}
+
+# update version string for handshake metadata
+sourcery --sources Sources/MongoDBVapor \
+        --templates Sources/MongoDBVapor/MongoDBVaporVersion.stencil \
+        --output Sources/MongoDBVapor/MongoDBVaporVersion.swift \
+        --args versionString=${version}
 
 # update the README with the version string
 etc/sed.sh -i "s/mongodb-vapor\", .upToNextMajor[^)]*)/mongodb-vapor\", .upToNextMajor(from: \"${version}\")/" README.md
 
+git add Sources/MongoDBVapor/MongoDBVaporVersion.swift
 git add README.md
-git commit -m "Update README for ${version}"
-git push
+git commit -m "${version}"
 
-# tag release and push tag
+# tag release
 git tag "v${version}"
+
+# push changes
+git push
 git push --tags
 
 # go to GitHub to publish release notes
