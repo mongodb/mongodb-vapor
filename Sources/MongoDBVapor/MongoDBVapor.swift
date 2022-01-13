@@ -90,7 +90,7 @@ extension Application {
             _ connectionString: String = "mongodb://localhost:27017",
             options: MongoClientOptions? = nil
         ) throws {
-            addWrappingLibraryMetadata(name: "MongoDBVapor", version: versionString)
+            addWrappingLibraryMetadata(name: "MongoDBVapor", version: MongoDBVaporVersionString)
             self._client = try MongoClient(connectionString, using: self.application.eventLoopGroup, options: options)
         }
 

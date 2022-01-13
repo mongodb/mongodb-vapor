@@ -1,1 +1,1 @@
-internal let MongoSwiftVersionString = "{{ argument.versionString }}"
+internal let MongoDBVaporVersionString = "{{ argument.versionString }}"
