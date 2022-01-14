@@ -1,0 +1,1 @@
+internal let MongoDBVaporVersionString = "{{ argument.versionString }}"
