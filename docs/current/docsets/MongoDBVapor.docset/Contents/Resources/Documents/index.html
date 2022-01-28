@@ -20,7 +20,7 @@
     <header class="header">
       <p class="header-col header-col--primary">
         <a class="header-link" href="index.html">
-          MongoDBVapor 1.0.1 Docs
+          MongoDBVapor 1.1.0-alpha.1 Docs
         </a>
          (99% documented)
       </p>
@@ -636,6 +636,15 @@
                 <a class="nav-group-task-link" href="Structs/Compressor.html">Compressor</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/MongoConnectionString.html">MongoConnectionString</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/MongoConnectionString/Scheme.html">– Scheme</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/MongoConnectionString/HostIdentifier.html">– HostIdentifier</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Structs/MongoNamespace.html">MongoNamespace</a>
               </li>
               <li class="nav-group-task">
@@ -682,7 +691,12 @@
 
 <ul>
 <li><a href="#configure-global-settings">Configure global settings</a></li>
-<li><a href="#use-mongodb-in-a-request-handler">Use MongoDB in a Request Handler</a></li>
+<li><a href="#use-mongodb-in-a-request-handler">Use MongoDB in a Request Handler</a>
+
+<ul>
+<li><a href="#asyncawait-apis">Async/Await APIs</a></li>
+<li><a href="#eventloopfuture-apis"><code>EventLoopFuture</code> APIs</a></li>
+</ul></li>
 <li><a href="#perform-one-time-setup-or-teardown-code">Perform one-time setup or teardown code</a></li>
 <li><a href="#working-with-extended-json">Working with Extended JSON</a></li>
 </ul></li>
@@ -736,7 +750,7 @@ Vapor&rsquo;s command line tool, <a href="https://github.com/vapor/toolbox">Vapo
     <span class="p">],</span>
     <span class="nv">dependencies</span><span class="p">:</span> <span class="p">[</span>
         <span class="o">.</span><span class="nf">package</span><span class="p">(</span><span class="nv">url</span><span class="p">:</span> <span class="s">"https://github.com/vapor/vapor"</span><span class="p">,</span> <span class="o">.</span><span class="nf">upToNextMajor</span><span class="p">(</span><span class="nv">from</span><span class="p">:</span> <span class="s">"4.7.0"</span><span class="p">)),</span>
-        <span class="o">.</span><span class="nf">package</span><span class="p">(</span><span class="nv">url</span><span class="p">:</span> <span class="s">"https://github.com/mongodb/mongodb-vapor"</span><span class="p">,</span> <span class="o">.</span><span class="nf">upToNextMajor</span><span class="p">(</span><span class="nv">from</span><span class="p">:</span> <span class="s">"1.0.0"</span><span class="p">))</span>
+        <span class="o">.</span><span class="nf">package</span><span class="p">(</span><span class="nv">url</span><span class="p">:</span> <span class="s">"https://github.com/mongodb/mongodb-vapor"</span><span class="p">,</span> <span class="o">.</span><span class="nf">upToNextMajor</span><span class="p">(</span><span class="nv">from</span><span class="p">:</span> <span class="s">"1.0.1"</span><span class="p">))</span>
     <span class="p">],</span>
     <span class="nv">targets</span><span class="p">:</span> <span class="p">[</span>
         <span class="o">.</span><span class="nf">target</span><span class="p">(</span>
@@ -788,6 +802,32 @@ dependencies the driver requires on Linux, as mentioned <a href="#step-1-install
 <span class="p">}</span>
 </code></pre>
 <h3 id='use-mongodb-in-a-request-handler' class='heading'>Use MongoDB in a Request Handler</h3>
+<h4 id='async-await-apis' class='heading'>Async/Await APIs</h4>
+
+<p>For collections you plan to access frequently, we recommend adding computed properties in an extension to <code>Request</code>
+to provide easy access, like:</p>
+<pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">Request</span> <span class="p">{</span>
+    <span class="c1">/// A collection with an associated `Codable` type `Kitten`.</span>
+    <span class="k">var</span> <span class="nv">kittenCollection</span><span class="p">:</span> <span class="kt">MongoCollection</span><span class="o">&lt;</span><span class="kt">Kitten</span><span class="o">&gt;</span> <span class="p">{</span>
+        <span class="k">self</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">mongoDB</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="nf">db</span><span class="p">(</span><span class="s">"home"</span><span class="p">)</span><span class="o">.</span><span class="nf">collection</span><span class="p">(</span><span class="s">"kittens"</span><span class="p">,</span> <span class="nv">withType</span><span class="p">:</span> <span class="kt">Kitten</span><span class="o">.</span><span class="k">self</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+
+<p>You can then use these in request handlers as follows:</p>
+<pre class="highlight swift"><code><span class="c1">/// Handles a request to load the list of kittens.</span>
+<span class="n">app</span><span class="o">.</span><span class="nf">get</span><span class="p">(</span><span class="s">"kittens"</span><span class="p">)</span> <span class="p">{</span> <span class="n">req</span> <span class="n">async</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">Kitten</span><span class="p">]</span> <span class="k">in</span>
+    <span class="k">try</span> <span class="n">await</span> <span class="n">req</span><span class="o">.</span><span class="n">kittenCollection</span><span class="o">.</span><span class="nf">find</span><span class="p">()</span><span class="o">.</span><span class="nf">toArray</span><span class="p">()</span>
+<span class="p">}</span>
+
+<span class="c1">/// Handles a request to add a new kitten.</span>
+<span class="n">app</span><span class="o">.</span><span class="nf">post</span><span class="p">(</span><span class="s">"kittens"</span><span class="p">)</span> <span class="p">{</span> <span class="n">req</span> <span class="n">async</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">Response</span> <span class="k">in</span>
+    <span class="k">let</span> <span class="nv">newKitten</span> <span class="o">=</span> <span class="k">try</span> <span class="n">req</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="nf">decode</span><span class="p">(</span><span class="kt">Kitten</span><span class="o">.</span><span class="k">self</span><span class="p">)</span>
+    <span class="k">try</span> <span class="n">await</span> <span class="n">req</span><span class="o">.</span><span class="n">kittenCollection</span><span class="o">.</span><span class="nf">insertOne</span><span class="p">(</span><span class="n">newKitten</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kt">Response</span><span class="p">(</span><span class="nv">status</span><span class="p">:</span> <span class="o">.</span><span class="n">created</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre>
+<h4 id='code-eventloopfuture-code-apis' class='heading'><code>EventLoopFuture</code> APIs</h4>
 
 <p>For collections you plan to access frequently, we recommend adding computed properties in an extension to <code>Request</code>
 to provide easy access, like:</p>
@@ -811,6 +851,7 @@ by removing the need to <code>hop</code> the returned futures.</strong></p>
     <span class="p">}</span>
 <span class="p">}</span>
 
+<span class="c1">/// Handles a request to add a new kitten.</span>
 <span class="n">app</span><span class="o">.</span><span class="nf">post</span><span class="p">(</span><span class="s">"kittens"</span><span class="p">)</span> <span class="p">{</span> <span class="n">req</span> <span class="o">-&gt;</span> <span class="kt">EventLoopFuture</span><span class="o">&lt;</span><span class="kt">Response</span><span class="o">&gt;</span> <span class="k">in</span>
     <span class="k">let</span> <span class="nv">newKitten</span> <span class="o">=</span> <span class="k">try</span> <span class="n">req</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="nf">decode</span><span class="p">(</span><span class="kt">Kitten</span><span class="o">.</span><span class="k">self</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">req</span><span class="o">.</span><span class="n">kittenCollection</span><span class="o">.</span><span class="nf">insertOne</span><span class="p">(</span><span class="n">newKitten</span><span class="p">)</span>
@@ -849,7 +890,7 @@ being encoded/decoded via <code>JSONEncoder</code> and <code>JSONDecoder</code>.
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2022 <a class="link" href="https://github.com/mongodb/mongodb-vapor" target="_blank" rel="external">Nataly Carbonell, Patrick Freed, Kaitlin Mahar</a>. All rights reserved. (Last updated: 2022-01-14)</p>
+      <p>&copy; 2022 <a class="link" href="https://github.com/mongodb/mongodb-vapor" target="_blank" rel="external">Nataly Carbonell, Patrick Freed, Kaitlin Mahar</a>. All rights reserved. (Last updated: 2022-01-28)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.5</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>

@@ -21,7 +21,7 @@
     <header class="header">
       <p class="header-col header-col--primary">
         <a class="header-link" href="index.html">
-          MongoDBVapor 1.0.1 Docs
+          MongoDBVapor 1.1.0-alpha.1 Docs
         </a>
          (99% documented)
       </p>
@@ -637,6 +637,15 @@
                 <a class="nav-group-task-link" href="Structs/Compressor.html">Compressor</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/MongoConnectionString.html">MongoConnectionString</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/MongoConnectionString/Scheme.html">– Scheme</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/MongoConnectionString/HostIdentifier.html">– HostIdentifier</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Structs/MongoNamespace.html">MongoNamespace</a>
               </li>
               <li class="nav-group-task">
@@ -707,11 +716,12 @@
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">ChangeStream</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span> <span class="p">:</span> <span class="kt">CursorProtocol</span> <span class="k">where</span> <span class="kt">T</span> <span class="p">:</span> <span class="kt">Decodable</span><span class="p">,</span> <span class="kt">T</span> <span class="p">:</span> <span class="kt">Encodable</span></code></pre>
+<pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">ChangeStream</span><span class="p">:</span> <span class="kt">AsyncSequence</span><span class="p">,</span> <span class="kt">AsyncIteratorProtocol</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/mongodb/mongo-swift-driver/tree/v1.2.0/Sources/MongoSwift/ChangeStream.swift#L63-L284">Show on GitHub</a>
+                        <a href="https://github.com/mongodb/mongo-swift-driver/tree/v1.3.0-alpha.1/Sources/MongoSwift/ChangeStream.swift#L63-L304">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -742,7 +752,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/mongodb/mongo-swift-driver/tree/v1.2.0/Sources/MongoSwift/ChangeStreamEvent.swift#L91-L152">Show on GitHub</a>
+                        <a href="https://github.com/mongodb/mongo-swift-driver/tree/v1.3.0-alpha.1/Sources/MongoSwift/ChangeStreamEvent.swift#L91-L152">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -773,7 +783,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/mongodb/mongo-swift-driver/tree/v1.2.0/Sources/MongoSwift/ChangeStreamOptions.swift#L20-L83">Show on GitHub</a>
+                        <a href="https://github.com/mongodb/mongo-swift-driver/tree/v1.3.0-alpha.1/Sources/MongoSwift/ChangeStreamOptions.swift#L20-L83">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -804,7 +814,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/mongodb/mongo-swift-driver/tree/v1.2.0/Sources/MongoSwift/ChangeStreamEvent.swift#L63-L88">Show on GitHub</a>
+                        <a href="https://github.com/mongodb/mongo-swift-driver/tree/v1.3.0-alpha.1/Sources/MongoSwift/ChangeStreamEvent.swift#L63-L88">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -841,7 +851,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/mongodb/mongo-swift-driver/tree/v1.2.0/Sources/MongoSwift/ChangeStream.swift#L35-L51">Show on GitHub</a>
+                        <a href="https://github.com/mongodb/mongo-swift-driver/tree/v1.3.0-alpha.1/Sources/MongoSwift/ChangeStream.swift#L35-L51">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -872,7 +882,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/mongodb/mongo-swift-driver/tree/v1.2.0/Sources/MongoSwift/ChangeStreamOptions.swift#L2-L17">Show on GitHub</a>
+                        <a href="https://github.com/mongodb/mongo-swift-driver/tree/v1.3.0-alpha.1/Sources/MongoSwift/ChangeStreamOptions.swift#L2-L17">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -904,7 +914,7 @@ operations of type <code>update</code>.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/mongodb/mongo-swift-driver/tree/v1.2.0/Sources/MongoSwift/ChangeStreamEvent.swift#L3-L60">Show on GitHub</a>
+                        <a href="https://github.com/mongodb/mongo-swift-driver/tree/v1.3.0-alpha.1/Sources/MongoSwift/ChangeStreamEvent.swift#L3-L60">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -917,7 +927,7 @@ operations of type <code>update</code>.</p>
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2022 <a class="link" href="https://github.com/mongodb/mongodb-vapor" target="_blank" rel="external">Nataly Carbonell, Patrick Freed, Kaitlin Mahar</a>. All rights reserved. (Last updated: 2022-01-14)</p>
+      <p>&copy; 2022 <a class="link" href="https://github.com/mongodb/mongodb-vapor" target="_blank" rel="external">Nataly Carbonell, Patrick Freed, Kaitlin Mahar</a>. All rights reserved. (Last updated: 2022-01-28)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.5</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>

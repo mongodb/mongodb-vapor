@@ -21,7 +21,7 @@
     <header class="header">
       <p class="header-col header-col--primary">
         <a class="header-link" href="../../index.html">
-          MongoDBVapor 1.0.1 Docs
+          MongoDBVapor 1.1.0-alpha.1 Docs
         </a>
          (99% documented)
       </p>
@@ -637,6 +637,15 @@
                 <a class="nav-group-task-link" href="../../Structs/Compressor.html">Compressor</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../../Structs/MongoConnectionString.html">MongoConnectionString</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../../Structs/MongoConnectionString/Scheme.html">– Scheme</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../../Structs/MongoConnectionString/HostIdentifier.html">– HostIdentifier</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../../Structs/MongoNamespace.html">MongoNamespace</a>
               </li>
               <li class="nav-group-task">
@@ -673,7 +682,7 @@
             <p>A type providing access to MongoDB APIs for use at the <code>Application</code> level.</p>
 
               <div class="slightly-smaller">
-                <a href="https://github.com/mongodb/mongodb-vapor/tree/v1.0.1/Sources/MongoDBVapor/MongoDBVapor.swift#L35-L115">Show on GitHub</a>
+                <a href="https://github.com/mongodb/mongodb-vapor/tree/v1.1.0-alpha.1/Sources/MongoDBVapor/MongoDBVapor.swift#L35-L120">Show on GitHub</a>
               </div>
           </div>
         </section>
@@ -696,10 +705,15 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>A global <code><a href="../../Classes/MongoClient.html">MongoClient</a></code> for use throughout the application. This client is not accessible until
-<code>Application.mongoDB.configure()</code> has been called. This client is primarily intended for use in application
-setup/teardown code and may return futures on any event loop within the application&rsquo;s <code>EventLoopGroup</code>.
-Within <code>Request</code> handlers, it is preferable to use <code>Request.mongoDB.client</code> as that will return a client
-which uses the same <code>EventLoop</code> as the <code>Request</code>.</p>
+ <code>Application.mongoDB.configure()</code> has been called.</p>
+
+<p>If you are using Vapor&rsquo;s async/await APIs: This client should be used throughout your application, including
+ in request handlers, via <code>Request.application.mongoDB.client</code>.</p>
+
+<p>If you are using Vapor&rsquo;s <code>EventLoopFuture</code> APIs: This client is primarily intended for use in application
+ setup/teardown code and may return futures on any event loop within the application&rsquo;s <code>EventLoopGroup</code>.
+ Within <code>Request</code> handlers, it is preferable to use <code>Request.mongoDB.client</code> as that will return a client
+ which uses the same <code>EventLoop</code> as the <code>Request</code>.</p>
 
                       </div>
                       <div class="declaration">
@@ -711,7 +725,7 @@ which uses the same <code>EventLoop</code> as the <code>Request</code>.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/mongodb/mongodb-vapor/tree/v1.0.1/Sources/MongoDBVapor/MongoDBVapor.swift#L47-L50">Show on GitHub</a>
+                        <a href="https://github.com/mongodb/mongodb-vapor/tree/v1.1.0-alpha.1/Sources/MongoDBVapor/MongoDBVapor.swift#L52-L55">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -792,7 +806,7 @@ which uses the same <code>EventLoop</code> as the <code>Request</code>.</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/mongodb/mongodb-vapor/tree/v1.0.1/Sources/MongoDBVapor/MongoDBVapor.swift#L89-L95">Show on GitHub</a>
+                        <a href="https://github.com/mongodb/mongodb-vapor/tree/v1.1.0-alpha.1/Sources/MongoDBVapor/MongoDBVapor.swift#L94-L100">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -829,7 +843,7 @@ which uses the same <code>EventLoop</code> as the <code>Request</code>.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/mongodb/mongodb-vapor/tree/v1.0.1/Sources/MongoDBVapor/MongoDBVapor.swift#L108-L114">Show on GitHub</a>
+                        <a href="https://github.com/mongodb/mongodb-vapor/tree/v1.1.0-alpha.1/Sources/MongoDBVapor/MongoDBVapor.swift#L113-L119">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -842,7 +856,7 @@ which uses the same <code>EventLoop</code> as the <code>Request</code>.</p>
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2022 <a class="link" href="https://github.com/mongodb/mongodb-vapor" target="_blank" rel="external">Nataly Carbonell, Patrick Freed, Kaitlin Mahar</a>. All rights reserved. (Last updated: 2022-01-14)</p>
+      <p>&copy; 2022 <a class="link" href="https://github.com/mongodb/mongodb-vapor" target="_blank" rel="external">Nataly Carbonell, Patrick Freed, Kaitlin Mahar</a>. All rights reserved. (Last updated: 2022-01-28)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.5</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
