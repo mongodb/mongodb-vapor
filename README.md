@@ -67,7 +67,7 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/vapor/vapor", .upToNextMajor(from: "4.7.0")),
-        .package(url: "https://github.com/mongodb/mongodb-vapor", .upToNextMajor(from: "1.1.0-alpha.1"))
+        .package(url: "https://github.com/mongodb/mongodb-vapor", .upToNextMajor(from: "1.1.0-alpha.2"))
     ],
     targets: [
         .target(
