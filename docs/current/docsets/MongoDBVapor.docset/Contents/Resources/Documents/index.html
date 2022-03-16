@@ -20,27 +20,27 @@
     <header class="header">
       <p class="header-col header-col--primary">
         <a class="header-link" href="index.html">
-          MongoDBVapor 1.1.0-alpha.2 Docs
+          MongoDBVapor 1.1.0-beta.1 Docs
         </a>
-         (99% documented)
+         (100% documented)
       </p>
     
-      <p class="header-col--secondary">
+      <div class="header-col--secondary">
         <form role="search" action="search.json">
           <input type="text" placeholder="Search documentation" data-typeahead>
         </form>
-      </p>
+      </div>
     
         <p class="header-col header-col--secondary">
           <a class="header-link" href="https://github.com/mongodb/mongodb-vapor">
-            <img class="header-icon" src="img/gh.png"/>
+            <img class="header-icon" src="img/gh.png" alt="GitHub"/>
             View on GitHub
           </a>
         </p>
     
         <p class="header-col header-col--secondary">
           <a class="header-link" href="dash-feed://https%3A%2F%2Fmongodb.github.io%2Fmongodb-vapor%2Fdocsets%2FMongoDBVapor.xml">
-            <img class="header-icon" src="img/dash.png"/>
+            <img class="header-icon" src="img/dash.png" alt="Dash"/>
             Install in Dash
           </a>
         </p>
@@ -48,7 +48,7 @@
 
     <p class="breadcrumbs">
       <a class="breadcrumb" href="index.html">MongoDBVapor Reference</a>
-      <img class="carat" src="img/carat.png" />
+      <img class="carat" src="img/carat.png" alt=""/>
       MongoDBVapor  Reference
     </p>
 
@@ -619,6 +619,23 @@
             </ul>
           </li>
           <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Other%20Extensions.html">Other Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Extensions/BSONValue.html">BSONValue</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Other%20Extensions.html#/s:10MongoSwift20CallbackEventHandler33_8652B485CE3F9798DF7719BCB12B1DDDLLC">CallbackEventHandler</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Other%20Extensions.html#/s:9SwiftBSON4JSONV">JSON</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Other%20Extensions.html#/s:10MongoSwift16WeakEventHandler33_8652B485CE3F9798DF7719BCB12B1DDDLLC">WeakEventHandler</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
             <a class="nav-group-name-link" href="Other%20Functions.html">Other Functions</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
@@ -750,7 +767,7 @@ Vapor&rsquo;s command line tool, <a href="https://github.com/vapor/toolbox">Vapo
     <span class="p">],</span>
     <span class="nv">dependencies</span><span class="p">:</span> <span class="p">[</span>
         <span class="o">.</span><span class="nf">package</span><span class="p">(</span><span class="nv">url</span><span class="p">:</span> <span class="s">"https://github.com/vapor/vapor"</span><span class="p">,</span> <span class="o">.</span><span class="nf">upToNextMajor</span><span class="p">(</span><span class="nv">from</span><span class="p">:</span> <span class="s">"4.7.0"</span><span class="p">)),</span>
-        <span class="o">.</span><span class="nf">package</span><span class="p">(</span><span class="nv">url</span><span class="p">:</span> <span class="s">"https://github.com/mongodb/mongodb-vapor"</span><span class="p">,</span> <span class="o">.</span><span class="nf">upToNextMajor</span><span class="p">(</span><span class="nv">from</span><span class="p">:</span> <span class="s">"1.1.0-alpha.1"</span><span class="p">))</span>
+        <span class="o">.</span><span class="nf">package</span><span class="p">(</span><span class="nv">url</span><span class="p">:</span> <span class="s">"https://github.com/mongodb/mongodb-vapor"</span><span class="p">,</span> <span class="o">.</span><span class="nf">upToNextMajor</span><span class="p">(</span><span class="nv">from</span><span class="p">:</span> <span class="s">"1.1.0-alpha.2"</span><span class="p">))</span>
     <span class="p">],</span>
     <span class="nv">targets</span><span class="p">:</span> <span class="p">[</span>
         <span class="o">.</span><span class="nf">target</span><span class="p">(</span>
@@ -816,14 +833,14 @@ to provide easy access, like:</p>
 
 <p>You can then use these in request handlers as follows:</p>
 <pre class="highlight swift"><code><span class="c1">/// Handles a request to load the list of kittens.</span>
-<span class="n">app</span><span class="o">.</span><span class="nf">get</span><span class="p">(</span><span class="s">"kittens"</span><span class="p">)</span> <span class="p">{</span> <span class="n">req</span> <span class="n">async</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">Kitten</span><span class="p">]</span> <span class="k">in</span>
-    <span class="k">try</span> <span class="n">await</span> <span class="n">req</span><span class="o">.</span><span class="n">kittenCollection</span><span class="o">.</span><span class="nf">find</span><span class="p">()</span><span class="o">.</span><span class="nf">toArray</span><span class="p">()</span>
+<span class="n">app</span><span class="o">.</span><span class="nf">get</span><span class="p">(</span><span class="s">"kittens"</span><span class="p">)</span> <span class="p">{</span> <span class="n">req</span> <span class="k">async</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">Kitten</span><span class="p">]</span> <span class="k">in</span>
+    <span class="k">try</span> <span class="k">await</span> <span class="n">req</span><span class="o">.</span><span class="n">kittenCollection</span><span class="o">.</span><span class="nf">find</span><span class="p">()</span><span class="o">.</span><span class="nf">toArray</span><span class="p">()</span>
 <span class="p">}</span>
 
 <span class="c1">/// Handles a request to add a new kitten.</span>
-<span class="n">app</span><span class="o">.</span><span class="nf">post</span><span class="p">(</span><span class="s">"kittens"</span><span class="p">)</span> <span class="p">{</span> <span class="n">req</span> <span class="n">async</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">Response</span> <span class="k">in</span>
+<span class="n">app</span><span class="o">.</span><span class="nf">post</span><span class="p">(</span><span class="s">"kittens"</span><span class="p">)</span> <span class="p">{</span> <span class="n">req</span> <span class="k">async</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">Response</span> <span class="k">in</span>
     <span class="k">let</span> <span class="nv">newKitten</span> <span class="o">=</span> <span class="k">try</span> <span class="n">req</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="nf">decode</span><span class="p">(</span><span class="kt">Kitten</span><span class="o">.</span><span class="k">self</span><span class="p">)</span>
-    <span class="k">try</span> <span class="n">await</span> <span class="n">req</span><span class="o">.</span><span class="n">kittenCollection</span><span class="o">.</span><span class="nf">insertOne</span><span class="p">(</span><span class="n">newKitten</span><span class="p">)</span>
+    <span class="k">try</span> <span class="k">await</span> <span class="n">req</span><span class="o">.</span><span class="n">kittenCollection</span><span class="o">.</span><span class="nf">insertOne</span><span class="p">(</span><span class="n">newKitten</span><span class="p">)</span>
     <span class="k">return</span> <span class="kt">Response</span><span class="p">(</span><span class="nv">status</span><span class="p">:</span> <span class="o">.</span><span class="n">created</span><span class="p">)</span>
 <span class="p">}</span>
 </code></pre>
@@ -890,9 +907,8 @@ being encoded/decoded via <code>JSONEncoder</code> and <code>JSONDecoder</code>.
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2022 <a class="link" href="https://github.com/mongodb/mongodb-vapor" target="_blank" rel="external">Nataly Carbonell, Patrick Freed, Kaitlin Mahar</a>. All rights reserved. (Last updated: 2022-02-24)</p>
-      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.5</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+      <p>&copy; 2022 <a class="link" href="https://github.com/mongodb/mongodb-vapor" target="_blank" rel="external noopener">Nataly Carbonell, Patrick Freed, Kaitlin Mahar</a>. All rights reserved. (Last updated: 2022-03-16)</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
     </section>
   </body>
-</div>
 </html>
