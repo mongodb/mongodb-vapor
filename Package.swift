@@ -11,7 +11,7 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/Quick/Nimble.git", .upToNextMajor(from: "8.0.0")),
-        .package(url: "https://github.com/mongodb/mongo-swift-driver", .exact("1.3.0-alpha.2")),
+        .package(url: "https://github.com/mongodb/mongo-swift-driver", .exact("1.3.0-beta.1")),
         .package(url: "https://github.com/vapor/vapor", .upToNextMajor(from: "4.0.0"))
     ],
     targets: [
