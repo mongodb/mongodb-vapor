@@ -73,8 +73,12 @@ final class MongoDBVaporTests: XCTestCase {
         defer {
             app.shutdown()
         }
-        struct TestStruct: Content, Equatable {
+        struct TestStruct: Content, Equatable, Validatable {
             let _id: BSONObjectID
+
+            static func validations(_ validations: inout Validations) {
+                validations.add("_id", as: BSONObjectID.self, is: .valid, required: true)
+            }
         }
 
         let test = TestStruct(
@@ -113,6 +117,22 @@ final class MongoDBVaporTests: XCTestCase {
             "test",
             beforeRequest: { req in
                 // manually add request data
+                try req.content.encode(test)
+            },
+            afterResponse: { res in
+                expect(res.status).to(equal(.ok))
+            }
+        )
+
+        app.post("test-validate") { req -> Response in
+            try TestStruct.validate(content: req)
+            return Response(status: .ok)
+        }
+
+        try app.test(
+            .POST,
+            "test-validate",
+            beforeRequest: { req in
                 try req.content.encode(test)
             },
             afterResponse: { res in
